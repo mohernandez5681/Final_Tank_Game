@@ -34,14 +34,25 @@ class Tank:
         if key[pygame.K_UP]:
             dy -= 1
 
-        #check for collison
+        # check for collison
 
-        #update tank coordinates
+        # update tank coordinates
         self.rect.x += dx
         self.rect.y += dy
 
         # draw tank onto screen
-        screen.blit(self.image,(self.rect.x,self.rect.y))
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+        # Sets the X bounds for the Tank
+        if self.rect.x <= 0:
+            self.rect.x = 0
+        elif self.rect.x >= 290:
+            self.rect.x = 290
+        # Sets the Y bounds for the Tank
+        if self.rect.y <= 390:
+            self.rect.y = 390
+        elif self.rect.y >= 550:
+            self.rect.y = 550
 
     def update_2(self):
         dx = 0
@@ -57,11 +68,23 @@ class Tank:
         if key[pygame.K_s]:
             dy += 1
 
-        #check for collison
+        # check for collison
 
-        #update tank coordinates
+        # update tank coordinates
         self.rect.x += dx
         self.rect.y += dy
 
         # draw tank onto screen
-        screen.blit(self.image,(self.rect.x,self.rect.y))
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+        # Sets the X bounds for the Tank
+        if self.rect.x <= 320:
+            self.rect.x = 320
+        elif self.rect.x >= 645:
+            self.rect.x = 645
+
+        # Sets the Y bounds for the Tank
+        if self.rect.y <= 390:
+            self.rect.y = 390
+        elif self.rect.y >= 550:
+            self.rect.y = 550
