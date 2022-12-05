@@ -2,6 +2,8 @@ import pygame
 import time
 import math
 from tank import Tank
+from pygame import mixer
+
 
 
 # Initialize the pygame
@@ -17,6 +19,12 @@ pygame.display.set_caption('Tank Attack')
 
 BlueTank = Tank('images/tankblue.png', 10, 500)
 RedTank = Tank('images/tankred.png', 600, 500)
+
+
+# Plays a song in the Background of the game
+mixer.music.load('background.wav')
+mixer.music.play(-1)
+
 
 
 # Load Background Image
