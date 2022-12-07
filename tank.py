@@ -41,7 +41,7 @@ class Tank(pygame.sprite.Sprite):
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1
 
-    def move(self, moving_left, moving_right, moving_up, moving_down):
+    def move_1(self, moving_left, moving_right, moving_up, moving_down):
         dx = 0
         dy = 0
         # assign movement variables if moving left or right
@@ -58,6 +58,31 @@ class Tank(pygame.sprite.Sprite):
             self.flip = False
             self.direction = -1
         if moving_down:
+            dy = self.speed
+            self.flip = False
+            self.direction = 1
+
+        # update rectangle position
+        self.rect.x += dx
+        self.rect.y += dy
+
+    def move_2(self, moving_left_2, moving_right_2, moving_up_2, moving_down_2):
+        dx = 0
+        dy = 0
+        # assign movement variables if moving left or right
+        if moving_left_2:
+            dx = -self.speed
+            self.flip = False
+            self.direction = -1
+        if moving_right_2:
+            dx = self.speed
+            self.flip = True
+            self.direction = 1
+        if moving_up_2:
+            dy = -self.speed
+            self.flip = False
+            self.direction = -1
+        if moving_down_2:
             dy = self.speed
             self.flip = False
             self.direction = 1

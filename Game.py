@@ -22,8 +22,13 @@ FPS = 60
 moving_left = False
 moving_right = False
 shoot = False
+shoot_2 = False
 moving_up = False
 moving_down = False
+moving_left_2 = False
+moving_right_2 = False
+moving_up_2 = False
+moving_down_2 = False
 
 # Creates the tank
 BlueTank = Tank('images/tankblue.png', 30, 500, 1, 10)
@@ -74,6 +79,8 @@ while running:
     draw_bg()
     BlueTank.update()
     BlueTank.draw()
+    RedTank.update()
+    RedTank.draw()
 
     # update and draw groups
     bullet_group.update()
@@ -83,10 +90,20 @@ while running:
     if BlueTank.alive:
         # shoot bullets
         if shoot:
-            bullet = Bullet(BlueTank.rect.centerx + (0.6 * BlueTank.rect.size[0] * BlueTank.direction), BlueTank.rect.centery, BlueTank.direction)
+            bullet = Bullet(BlueTank.rect.centerx + (0.6 * BlueTank.rect.size[0] * BlueTank.direction),
+                            BlueTank.rect.centery, BlueTank.direction)
             bullet_group.add(bullet)
         else:
-            BlueTank.move(moving_left, moving_right, moving_up, moving_down)
+            BlueTank.move_1(moving_left, moving_right, moving_up, moving_down)
+
+    if RedTank.alive:
+        # shoot bullets
+        if shoot_2:
+            bullet = Bullet(RedTank.rect.centerx + (0.6 * RedTank.rect.size[0] * RedTank.direction),
+                            RedTank.rect.centery, RedTank.direction)
+            bullet_group.add(bullet)
+        else:
+            RedTank.move_2(moving_left_2, moving_right_2, moving_up_2, moving_down_2)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -101,12 +118,23 @@ while running:
                 moving_down = True
             if event.key == pygame.K_UP:
                 moving_up = True
+
+            if event.key == pygame.K_a:
+                moving_left_2 = True
+            if event.key == pygame.K_d:
+                moving_right_2 = True
+            if event.key == pygame.K_s:
+                moving_down_2 = True
+            if event.key == pygame.K_w:
+                moving_up_2 = True
+            if event.key == pygame.K_p:
+                shoot_2 = True
             if event.key == pygame.K_SPACE:
                 shoot = True
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-    # Keyboard released
+        # Keyboard released
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 moving_left = False
@@ -116,6 +144,17 @@ while running:
                 moving_down = False
             if event.key == pygame.K_UP:
                 moving_up = False
+
+            if event.key == pygame.K_a:
+                moving_left_2 = False
+            if event.key == pygame.K_d:
+                moving_right_2 = False
+            if event.key == pygame.K_s:
+                moving_down_2 = False
+            if event.key == pygame.K_w:
+                moving_up_2 = False
+            if event.key == pygame.K_p:
+                shoot_2 = False
             if event.key == pygame.K_SPACE:
                 shoot = False
     pygame.display.update()
