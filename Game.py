@@ -2,6 +2,7 @@ import pygame
 import time
 from tank import Tank
 from pygame import mixer
+import button
 
 # Initialize the pygame
 pygame.init()
@@ -16,13 +17,18 @@ pygame.display.set_caption('Tank Attack')
 clock = pygame.time.Clock()
 FPS = 60
 
+# define player action variables
 moving_left = False
 moving_right = False
-
-
+shoot = False
+# Creates the tank
 BlueTank = Tank('images/tankblue.png', 30, 500, 1)
 RedTank = Tank('images/tankred.png', 670, 500, 1)
 
+# load bullet image
+bullet_img = pygame.image.load('images/bullet.png')
+start_img = pygame.image.load('images/start.png').convert_alpha()
+exit_img = pygame.image.load('images/quit.png').convert_alpha()
 # Plays a song in the Background of the game
 mixer.music.load('background.wav')
 mixer.music.play(-1)
@@ -30,24 +36,44 @@ mixer.music.play(-1)
 # Load Background Image
 background = pygame.image.load('images/desert.png').convert_alpha()
 
+# Define game variables
+start_game = False
+
 
 # function for drawing background
 def draw_bg():
     scaled_background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(scaled_background, (0, 0))
 
+# Create buttons
+exit_button = button.Button(130, 300, exit_img, 1)
+start_button = button.Button(130, 40, start_img, 1)
 
 # Game loop
 running = True
 while running:
     clock.tick(FPS)
-    draw_bg()
 
-    # BlueTank.update_1()
-    # RedTank.update_2()
-    BlueTank.draw()
-    BlueTank.update(moving_left,moving_right)
-    RedTank.draw()
+    if start_game == False:
+        # draw menu
+        screen.fill((255, 255, 255))
+
+        # add buttons
+        if start_button.draw(screen):
+            start_game = True
+        if exit_button.draw(screen):
+            running = False
+
+
+    else:
+
+        draw_bg()
+
+        # BlueTank.update_1()
+        # RedTank.update_2()
+        BlueTank.draw()
+        BlueTank.update(moving_left, moving_right)
+        RedTank.draw()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -58,6 +84,8 @@ while running:
                 moving_left = True
             if event.key == pygame.K_RIGHT:
                 moving_right = True
+            if event.key == pygame.K_SPACE:
+                shoot = True
             if event.key == pygame.K_ESCAPE:
                 running = False
 
@@ -67,5 +95,6 @@ while running:
                 moving_left = False
             if event.key == pygame.K_RIGHT:
                 moving_right = False
-
+            if event.key == pygame.K_SPACE:
+                shoot = False
     pygame.display.update()
