@@ -2,6 +2,7 @@ import pygame
 import time
 from tank import Tank
 from pygame import mixer
+from tank import Bullet
 import button
 
 # Initialize the pygame
@@ -22,11 +23,13 @@ moving_left = False
 moving_right = False
 shoot = False
 # Creates the tank
-BlueTank = Tank('images/tankblue.png', 30, 500, 1)
-RedTank = Tank('images/tankred.png', 670, 500, 1)
+BlueTank = Tank('images/tankblue.png', 30, 500, 1, 10)
+RedTank = Tank('images/tankred.png', 670, 500, 1, 10)
 
 # load bullet image
-bullet_img = pygame.image.load('images/bullet.png')
+bullet_img = pygame.image.load('images/bullet.png').convert_alpha()
+bullet_group = Bullet(30,500,1)
+
 start_img = pygame.image.load('images/start.png').convert_alpha()
 exit_img = pygame.image.load('images/quit.png').convert_alpha()
 # Plays a song in the Background of the game
@@ -44,6 +47,7 @@ start_game = False
 def draw_bg():
     scaled_background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(scaled_background, (0, 0))
+
 
 # Create buttons
 exit_button = button.Button(130, 300, exit_img, 1)
@@ -69,11 +73,18 @@ while running:
 
         draw_bg()
 
-        # BlueTank.update_1()
-        # RedTank.update_2()
         BlueTank.draw()
-        BlueTank.update(moving_left, moving_right)
+        BlueTank.move(moving_left, moving_right)
         RedTank.draw()
+        # update and draw groups
+
+
+    if BlueTank.alive:
+        # shoot bullets
+        if shoot:
+            BlueTank.shoot()
+        BlueTank.move(moving_left, moving_right)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
