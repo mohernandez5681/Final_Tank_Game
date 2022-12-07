@@ -22,16 +22,21 @@ FPS = 60
 moving_left = False
 moving_right = False
 shoot = False
+moving_up = False
+moving_down = False
+
 # Creates the tank
 BlueTank = Tank('images/tankblue.png', 30, 500, 1, 10)
 RedTank = Tank('images/tankred.png', 670, 500, 1, 10)
 
 # load bullet image
 bullet_img = pygame.image.load('images/bullet.png').convert_alpha()
-bullet_group = Bullet(30,500,1)
+bullet_group = pygame.sprite.Group()
 
+# Loads start and exit images
 start_img = pygame.image.load('images/start.png').convert_alpha()
 exit_img = pygame.image.load('images/quit.png').convert_alpha()
+
 # Plays a song in the Background of the game
 mixer.music.load('background.wav')
 mixer.music.play(-1)
@@ -57,55 +62,61 @@ start_button = button.Button(130, 40, start_img, 1)
 running = True
 while running:
     clock.tick(FPS)
+    # if start_game == False:
+    #     # draw menu
+    #     screen.fill((255, 255, 255))
+    #     # add buttons
+    #     if start_button.draw(screen):
+    #         start_game = True
+    #     if exit_button.draw(screen):
+    #         running = False
+    # else:
+    draw_bg()
+    BlueTank.update()
+    BlueTank.draw()
 
-    if start_game == False:
-        # draw menu
-        screen.fill((255, 255, 255))
+    # update and draw groups
+    bullet_group.update()
+    bullet_group.draw(screen)
 
-        # add buttons
-        if start_button.draw(screen):
-            start_game = True
-        if exit_button.draw(screen):
-            running = False
-
-
-    else:
-
-        draw_bg()
-
-        BlueTank.draw()
-        BlueTank.move(moving_left, moving_right)
-        RedTank.draw()
-        # update and draw groups
-
-
+    # update tanks actions
     if BlueTank.alive:
         # shoot bullets
         if shoot:
-            BlueTank.shoot()
-        BlueTank.move(moving_left, moving_right)
+            bullet = Bullet(BlueTank.rect.centerx + (0.6 * BlueTank.rect.size[0] * BlueTank.direction), BlueTank.rect.centery, BlueTank.direction)
+            bullet_group.add(bullet)
+        else:
+            BlueTank.move(moving_left, moving_right, moving_up, moving_down)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
         # Keyboard presses
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 moving_left = True
             if event.key == pygame.K_RIGHT:
                 moving_right = True
+            if event.key == pygame.K_DOWN:
+                moving_down = True
+            if event.key == pygame.K_UP:
+                moving_up = True
             if event.key == pygame.K_SPACE:
                 shoot = True
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-        # Keyboard released
+    # Keyboard released
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 moving_left = False
             if event.key == pygame.K_RIGHT:
                 moving_right = False
+            if event.key == pygame.K_DOWN:
+                moving_down = False
+            if event.key == pygame.K_UP:
+                moving_up = False
             if event.key == pygame.K_SPACE:
                 shoot = False
     pygame.display.update()
+pygame.quit()
