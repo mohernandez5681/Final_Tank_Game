@@ -2,7 +2,7 @@ import pygame
 import time
 from tank import Tank
 from pygame import mixer
-from tank import Bullet
+from bullet import Bullet
 import button
 
 # Initialize the pygame

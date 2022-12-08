@@ -87,25 +87,3 @@ class Tank(pygame.sprite.Sprite):
 
     def draw(self):
         screen.blit(pygame.transform.flip(self.image, False, False), self.rect)
-
-
-BlueTank = Tank('images/tankblue.png', 30, 500, 1, 1)
-RedTank = Tank('images/tankred.png', 670, 500, 1, -1)
-
-
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, images, x, y, direction):
-        pygame.sprite.Sprite.__init__(self)
-        self.speed = 10
-        img = pygame.image.load(images)
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.center = (x, y)
-        self.direction = direction
-
-    def update(self):
-        # move bullet
-        self.rect.x += (self.direction * self.speed)
-        # check if bullet has gone off screen
-        if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
-            self.kill()
