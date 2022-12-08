@@ -119,6 +119,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         # Keyboard presses
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            screen.fill((255, 23, 45))
+            
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 moving_left = True
@@ -130,6 +133,8 @@ while running:
                 moving_up = True
             if event.key == pygame.K_SPACE:
                 shoot = True
+
+
 
             if event.key == pygame.K_a:
                 moving_left_2 = True
