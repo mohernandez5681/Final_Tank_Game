@@ -21,26 +21,25 @@ FPS = 60
 # define player action variables
 moving_left = False
 moving_right = False
-shoot = False
-shoot_2 = False
 moving_up = False
 moving_down = False
+shoot = False
+
 moving_left_2 = False
 moving_right_2 = False
 moving_up_2 = False
 moving_down_2 = False
+shoot_2 = False
 
 # Creates the tank
-BlueTank = Tank('images/tankblue.png', 30, 500, 1, 10)
-RedTank = Tank('images/tankred.png', 670, 500, 1, 10)
+BlueTank = Tank('images/tankblue.png', 30, 500, 1, 1)
+RedTank = Tank('images/tankred.png', 670, 500, 1, -1)
 
-# load bullet image
-bullet_img = pygame.image.load('images/bullet.png').convert_alpha()
+tank_group = pygame.sprite.Group()
+tank_group.add(BlueTank)
+tank_group.add(RedTank)
+
 bullet_group = pygame.sprite.Group()
-
-# Loads start and exit images
-start_img = pygame.image.load('images/start.png').convert_alpha()
-exit_img = pygame.image.load('images/quit.png').convert_alpha()
 
 # Plays a song in the Background of the game
 mixer.music.load('background.wav')
@@ -59,6 +58,9 @@ def draw_bg():
     screen.blit(scaled_background, (0, 0))
 
 
+# Loads start and exit images
+start_img = pygame.image.load('images/start.png').convert_alpha()
+exit_img = pygame.image.load('images/quit.png').convert_alpha()
 # Create buttons
 exit_button = button.Button(130, 300, exit_img, 1)
 start_button = button.Button(130, 40, start_img, 1)
@@ -67,43 +69,52 @@ start_button = button.Button(130, 40, start_img, 1)
 running = True
 while running:
     clock.tick(FPS)
-    # if start_game == False:
-    #     # draw menu
-    #     screen.fill((255, 255, 255))
-    #     # add buttons
-    #     if start_button.draw(screen):
-    #         start_game = True
-    #     if exit_button.draw(screen):
-    #         running = False
-    # else:
-    draw_bg()
-    BlueTank.update()
-    BlueTank.draw()
-    RedTank.update()
-    RedTank.draw()
 
-    # update and draw groups
-    bullet_group.update()
-    bullet_group.draw(screen)
+    if start_game == False:
+        # draw menu
+        screen.fill((255, 255, 255))
+        # add buttons
+        if start_button.draw(screen):
+            start_game = True
+        if exit_button.draw(screen):
+            running = False
+    else:
+        draw_bg()
+        # update and draw groups
+        tank_group.update()
+        tank_group.draw(screen)
+        bullet_group.update()
+        bullet_group.draw(screen)
 
-    # update tanks actions
-    if BlueTank.alive:
-        # shoot bullets
-        if shoot:
-            bullet = Bullet(BlueTank.rect.centerx + (0.6 * BlueTank.rect.size[0] * BlueTank.direction),
-                            BlueTank.rect.centery, BlueTank.direction)
-            bullet_group.add(bullet)
-        else:
-            BlueTank.move_1(moving_left, moving_right, moving_up, moving_down)
+        if BlueTank.alive:
+            # shoot bullets
+            if shoot:
+                bullet_1 = Bullet('images/bullet.png', BlueTank.rect.centerx + 23, BlueTank.rect.centery,
+                                  BlueTank.direction)
+                bullet_group.add(bullet_1)
+                clock.tick(int(1/2))
+                if pygame.sprite.spritecollide(RedTank, bullet_group, False):
+                    bullet_1.kill()
+                    RedTank.remove(tank_group)
+                    RedTank.alive = False
+            else:
+                BlueTank.move_1(moving_left, moving_right, moving_up, moving_down)
 
-    if RedTank.alive:
-        # shoot bullets
-        if shoot_2:
-            bullet = Bullet(RedTank.rect.centerx + (0.6 * RedTank.rect.size[0] * RedTank.direction),
-                            RedTank.rect.centery, RedTank.direction)
-            bullet_group.add(bullet)
-        else:
-            RedTank.move_2(moving_left_2, moving_right_2, moving_up_2, moving_down_2)
+        if RedTank.alive:
+            # shoot bullets
+            if shoot_2:
+                bullet_2 = Bullet('images/bullet left.png', RedTank.rect.centerx -20, RedTank.rect.centery,
+                                  RedTank.direction)
+                bullet_group.add(bullet_2)
+                if pygame.sprite.spritecollide(BlueTank, bullet_group, False):
+                    bullet_2.kill()
+                    BlueTank.remove(tank_group)
+
+            else:
+                RedTank.move_2(moving_left_2, moving_right_2, moving_up_2, moving_down_2)
+
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -118,6 +129,8 @@ while running:
                 moving_down = True
             if event.key == pygame.K_UP:
                 moving_up = True
+            if event.key == pygame.K_SPACE:
+                shoot = True
 
             if event.key == pygame.K_a:
                 moving_left_2 = True
@@ -129,8 +142,7 @@ while running:
                 moving_up_2 = True
             if event.key == pygame.K_p:
                 shoot_2 = True
-            if event.key == pygame.K_SPACE:
-                shoot = True
+
             if event.key == pygame.K_ESCAPE:
                 running = False
 
@@ -144,6 +156,8 @@ while running:
                 moving_down = False
             if event.key == pygame.K_UP:
                 moving_up = False
+            if event.key == pygame.K_SPACE:
+                shoot = False
 
             if event.key == pygame.K_a:
                 moving_left_2 = False
@@ -155,7 +169,6 @@ while running:
                 moving_up_2 = False
             if event.key == pygame.K_p:
                 shoot_2 = False
-            if event.key == pygame.K_SPACE:
-                shoot = False
+
     pygame.display.update()
 pygame.quit()

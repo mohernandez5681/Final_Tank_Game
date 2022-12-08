@@ -1,4 +1,24 @@
+
+
+# Project Title
+Tank Destroyer
+
+## Description
 Welcome to my game.
 This is a two player game where you try to shoot each other and avoid getting hit.
 Player 1 is the blue tank and is moved using the arrow keys. To shoot you press the space bar.
 Player 2 is the red tank and is moved using the aswd keys. To shoot you press p.
+
+
+## Getting Started
+To start the game press the start button in the main menu. This starts the game.
+
+## Dependencies
+
+## Executing program
+* How to run the program
+* Step-by-step bullets
+code blocks for commands
+
+## Help
+Any advise for common problems or issues.
