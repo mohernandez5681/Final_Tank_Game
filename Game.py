@@ -86,35 +86,34 @@ while running:
         bullet_group.update()
         bullet_group.draw(screen)
 
-        if BlueTank.alive:
+
+        if BlueTank.alive == True:
             # shoot bullets
             if shoot:
                 bullet_1 = Bullet('images/bullet.png', BlueTank.rect.centerx + 23, BlueTank.rect.centery,
                                   BlueTank.direction)
                 bullet_group.add(bullet_1)
-                clock.tick(int(1/2))
-                if pygame.sprite.spritecollide(RedTank, bullet_group, False):
+                if pygame.sprite.spritecollide(RedTank, bullet_group, True):
                     bullet_1.kill()
                     RedTank.remove(tank_group)
                     RedTank.alive = False
             else:
                 BlueTank.move_1(moving_left, moving_right, moving_up, moving_down)
 
-        if RedTank.alive:
+
+        if RedTank.alive == True:
             # shoot bullets
             if shoot_2:
                 bullet_2 = Bullet('images/bullet left.png', RedTank.rect.centerx -20, RedTank.rect.centery,
                                   RedTank.direction)
                 bullet_group.add(bullet_2)
-                if pygame.sprite.spritecollide(BlueTank, bullet_group, False):
+                if pygame.sprite.spritecollide(BlueTank, bullet_group, True):
                     bullet_2.kill()
                     BlueTank.remove(tank_group)
+                    BlueTank.alive = False
 
             else:
                 RedTank.move_2(moving_left_2, moving_right_2, moving_up_2, moving_down_2)
-
-
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
