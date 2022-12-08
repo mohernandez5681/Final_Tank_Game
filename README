@@ -1,24 +1,17 @@
-
-
 # Project Title
 Tank Destroyer
 
 ## Description
-Welcome to my game.
-This is a two player game where you try to shoot each other and avoid getting hit.
-Player 1 is the blue tank and is moved using the arrow keys. To shoot you press the space bar.
-Player 2 is the red tank and is moved using the aswd keys. To shoot you press p.
+Welcome to my game. This is a two player game where you try to shoot each other and avoid getting hit. Player 1 is the blue tank and is moved using the arrow keys. To shoot you press the space bar. Player 2 is the red tank and is moved using the aswd keys. To shoot you press p.
+
+## Table of contents
+game.py is the main file where the game will be runned. 
+tank.py holds the Tank and Bullet class. This is how the tanks are created as well as the bullets.
+button.py holds the Button class. This is where we are able to more efficientely create buttons for the start menu.
 
 
-## Getting Started
-To start the game press the start button in the main menu. This starts the game.
+### Running the game
+The way you run the game is by pressing the run button in pycharm. After that the game launches and you will either press the start or quit button. Press the start button to play. 
 
-## Dependencies
-
-## Executing program
-* How to run the program
-* Step-by-step bullets
-code blocks for commands
-
-## Help
-Any advise for common problems or issues.
+## Acknowledgments
+I had a lot of help from youtube specifically from the channel Coding With Russ. 
